@@ -1,0 +1,22 @@
+{
+  "name": "typescript-transform",
+  "version": "1.0.0",
+  "description": "experiment on typscript transforms",
+  "main": "index.js",
+  "scripts": {
+    "build": "ts-node build.ts"
+  },
+  "keywords": [
+    "typescript",
+    "transform"
+  ],
+  "author": "Aivan Monceller",
+  "license": "MIT",
+  "dependencies": {
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^10.11.0"
+  }
+}
