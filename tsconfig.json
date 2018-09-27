@@ -5,15 +5,15 @@
     "declaration": true,
     "experimentalDecorators": true,
     "lib": ["es5", "es6", "dom"],
-    "module": "commonjs",
+    "module": "esNext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "./dist",
     "removeComments": true,
-    "target": "es5"
+    "target": "es6"
   },
   "include": [
-    "./*.ts"
+    "./src/**/*.ts"
   ]
 }

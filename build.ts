@@ -28,7 +28,7 @@ const changeTransform = (context: ts.TransformationContext): ts.Transformer<ts.S
           ts.SyntaxKind.ExtendsKeyword,
           [ts.createExpressionWithTypeArguments(
             [],
-            ts.createIdentifier('CustomElement')
+            ts.createIdentifier('CustomHTMLElement')
           )]
         )],
         node.members

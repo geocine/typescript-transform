@@ -4,7 +4,8 @@
   "description": "experiment on typscript transforms",
   "main": "index.js",
   "scripts": {
-    "build": "ts-node build.ts"
+    "build": "ts-node -O '{\"module\": \"commonjs\"}' build.ts",
+    "build.tsc": "tsc -p ."
   },
   "keywords": [
     "typescript",
