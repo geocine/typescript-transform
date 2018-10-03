@@ -10,10 +10,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "custom-elements-ts": ["src/custom-element"]
+    },
     "removeComments": true,
     "target": "es6"
   },
   "include": [
-    "./src/**/*.ts"
+    "./**/*.ts"
   ]
 }

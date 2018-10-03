@@ -4,8 +4,7 @@
   "description": "experiment on typscript transforms",
   "main": "index.js",
   "scripts": {
-    "build": "ts-node -O '{\"module\": \"commonjs\"}' build.ts",
-    "build.tsc": "tsc -p ."
+    "build": "ts-node -O '{\"module\": \"commonjs\"}' rollup.ts"
   },
   "keywords": [
     "typescript",
@@ -14,6 +13,10 @@
   "author": "Aivan Monceller",
   "license": "MIT",
   "dependencies": {
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^3.0.0",
+    "rollup-plugin-typescript2": "^0.17.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.3"
   },
