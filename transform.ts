@@ -1,34 +1,19 @@
 // TODO: figuire out how to use this on rollup.config.js
 import * as ts from 'typescript';
 
-export default function transformer(program: ts.Program): ts.TransformerFactory<ts.SourceFile> {
-  return (context: ts.TransformationContext) => (file: ts.SourceFile) => changeTransform(program, context, file);
+export default function transformer(program: ts.Program): Array<ts.TransformerFactory<ts.SourceFile>> {
+  const tsSourceTransformers: Array<ts.TransformerFactory<ts.SourceFile>> = [
+    (context: ts.TransformationContext) => (file: ts.SourceFile) => extendClass(program, context, file),
+    (context: ts.TransformationContext) => (file: ts.SourceFile) => addImports(context, file)
+  ]
+  return tsSourceTransformers;
 }
 
 // Simple transform add extends CustomElement
-export function changeTransform(program: ts.Program, context: ts.TransformationContext, sf: ts.SourceFile) {
+export function extendClass(program: ts.Program, context: ts.TransformationContext, sf: ts.SourceFile) {
   const visitor: ts.Visitor = (node) => {
     // Add CustomHTMLElement to import
     if (!ts.isClassDeclaration(node)) {
-      if (ts.isImportDeclaration(node) && isElementImport(node, sf)) {
-        const { importClause: { namedBindings } } = node
-        const { elements } = namedBindings as ts.NamedImports
-      
-        const specifiers: Array<ts.ImportSpecifier> = [...elements]
-      
-        const hasCustomHTMLElementImport = elements.some(n => n.getText().indexOf('CustomHTMLElement') > -1)
-      
-        if (!hasCustomHTMLElementImport) {
-          specifiers.push(ts.createImportSpecifier(void 0, ts.createIdentifier('CustomHTMLElement')))
-        }
-        
-        return ts.createImportDeclaration(
-          [],
-          node.modifiers,
-          ts.createImportClause(void 0, ts.createNamedImports(specifiers)),
-          node.moduleSpecifier
-        )
-      }
       return ts.visitEachChild(node, visitor, context);
     }
 
@@ -67,6 +52,31 @@ export function changeTransform(program: ts.Program, context: ts.TransformationC
   return ts.visitNode(sf, visitor);
 };
 
+export function addImports(context: ts.TransformationContext, sf: ts.SourceFile) {
+  const visitor: ts.Visitor = (node) => {
+    if (ts.isImportDeclaration(node) && isElementImport(node, sf)) {
+      const { importClause: { namedBindings } } = node
+      const { elements } = namedBindings as ts.NamedImports
+    
+      const specifiers: Array<ts.ImportSpecifier> = [...elements]
+    
+      const hasCustomHTMLElementImport = elements.some(n => n.getText().indexOf('CustomHTMLElement') > -1)
+    
+      if (!hasCustomHTMLElementImport) {
+        specifiers.push(ts.createImportSpecifier(void 0, ts.createIdentifier('CustomHTMLElement')))
+      }
+      
+      return ts.createImportDeclaration(
+        [],
+        node.modifiers,
+        ts.createImportClause(void 0, ts.createNamedImports(specifiers)),
+        node.moduleSpecifier
+      )
+    }
+    return ts.visitEachChild(node, visitor, context);
+  };
+  return ts.visitNode(sf, visitor);
+};
 
 function isElementDecorator(node: ts.Decorator, typeChecker: ts.TypeChecker): boolean {
   if (!ts.isCallExpression(node.expression)) {

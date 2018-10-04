@@ -15,7 +15,8 @@
       "custom-elements-ts": ["src/custom-element"]
     },
     "removeComments": true,
-    "target": "es6"
+    "target": "es6",
+    "sourceMap": true
   },
   "include": [
     "./**/*.ts"

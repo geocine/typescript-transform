@@ -1,7 +1,7 @@
 
 import * as path from 'path';
 import tsTransformer from './transform';
-//import { terser } from 'rollup-plugin-terser';
+// import { terser } from 'rollup-plugin-terser';
 
 const typescript = require('rollup-plugin-typescript2');
 const resolve = require('rollup-plugin-node-resolve');
@@ -13,7 +13,7 @@ const bundleOptions = {
   plugins: [
     typescript({
       transformers: [service => ({
-        before: [ tsTransformer(service.getProgram()) ],
+        before: [[],...tsTransformer(service.getProgram())],
         after: []
       })],
       useTsconfigDeclarationDir: true,
