@@ -13,7 +13,7 @@ const bundleOptions = {
   plugins: [
     typescript({
       transformers: [service => ({
-        before: [[],...tsTransformer(service.getProgram())],
+        before: [...[],...tsTransformer(service.getProgram())],
         after: []
       })],
       useTsconfigDeclarationDir: true,
