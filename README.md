@@ -4,29 +4,24 @@ This repository contains all my experiments on typescript transform. I have adde
 
 **source:**
 ```js
+import { CustomElement } from 'custom-elements-ts';
+@CustomElement()
 export class CounterElement {
   
 } 
+
+export class StepperElement {}
 ```
 
-**transpiled:** (normal tsc)
-```
- npm run build.tsc
-```
-
-```js
-export class CounterElement {
-  
-}
-```
-
-**transpiled:** (using transformer build.ts)
-```
- npm run build
-```
+**transformed:**
 
 ```js
-export class CounterElement extends CustomHTMLElement {
+import { CustomElement, CustomHTMLElement } from 'custom-elements-ts';
+@CustomElement()
+export class CounterElement  extends CustomHTMLElement {
   
-}
+} 
+
+// not transformed since it has not been decorated with @CustomElement
+export class StepperElement {}
 ```
