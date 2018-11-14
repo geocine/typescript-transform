@@ -1,6 +1,6 @@
 
 import * as path from 'path';
-import tsTransformer from './transform';
+import tsTransformer from './transformers/transform';
 // import { terser } from 'rollup-plugin-terser';
 
 const typescript = require('rollup-plugin-typescript2');

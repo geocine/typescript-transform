@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { isElementDecorator } from './utils';
 
 // Simple transform add extends CustomElement
-export default function extendClass(program: ts.Program, context: ts.TransformationContext, sf: ts.SourceFile) {
+function extendClass(program: ts.Program, context: ts.TransformationContext, sf: ts.SourceFile) {
   const visitor: ts.Visitor = (node) => {
     // Add CustomHTMLElement to import
     if (!ts.isClassDeclaration(node)) {
@@ -10,7 +10,6 @@ export default function extendClass(program: ts.Program, context: ts.Transformat
     }
 
     let isCustomElement = false;
-
     if (ts.isClassDeclaration(node)) {
       ts.visitNodes(node.decorators, (node: ts.Decorator) => {
         if (isElementDecorator(node, program.getTypeChecker())) {
@@ -24,10 +23,11 @@ export default function extendClass(program: ts.Program, context: ts.Transformat
     if(!isCustomElement){
       return node;
     }
-    
+
+
     return ts.updateClassDeclaration(
         node,
-        node.decorators,
+        node.decorators, // check custom-elements-ts-transformer/blob/master/src/visitor.ts
         node.modifiers,
         node.name,
         node.typeParameters,
@@ -42,4 +42,6 @@ export default function extendClass(program: ts.Program, context: ts.Transformat
       );
   };
   return ts.visitNode(sf, visitor);
-};
+}
+
+export default (program) => (context: ts.TransformationContext) => (file: ts.SourceFile) => extendClass(program, context, file)

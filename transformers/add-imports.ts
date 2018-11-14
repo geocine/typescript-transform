@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import { isElementImport } from './utils';
 
-export default function addImports(context: ts.TransformationContext, sf: ts.SourceFile) {
+function addImports(context: ts.TransformationContext, sf: ts.SourceFile) {
   const visitor: ts.Visitor = (node) => {
     if (ts.isImportDeclaration(node) && isElementImport(node, sf)) {
       const { importClause: { namedBindings } } = node
@@ -25,4 +25,6 @@ export default function addImports(context: ts.TransformationContext, sf: ts.Sou
     return ts.visitEachChild(node, visitor, context);
   };
   return ts.visitNode(sf, visitor);
-};
+}
+
+export default (_program) => (context: ts.TransformationContext) => (file: ts.SourceFile) => addImports(context, file);
